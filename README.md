@@ -17,8 +17,9 @@ jailbreak success are separate from successful hosting/download tests.
 1. Read the beginner guide and confirm firmware 13.60. Fully boot the console.
 2. Use the direct hosted Relapse link if you already have a console-browser entry.
    For a User’s Guide trial, set the console DNS to the endpoint above and open
-   the User’s Guide from Settings. This server answers only that domain; it refuses
-   other domains and ordinary online services may fail to resolve. Restore your
+   the User’s Guide from Settings. Set both DNS fields to the endpoint. This redirects both guide hostnames,
+   resolves PlayStation and myfl.uk names, and refuses unrelated domains.
+   The known update.playstation.net branch returns NXDOMAIN. Some apps may fail to resolve. Restore your
    original DNS when finished. PS5 TLS/certificate acceptance remains pending.
 3. After the chain runs, load only the payloads your app needs. The hosted Relapse
    code is unchanged and does not automatically run all curated extras.

@@ -3,11 +3,11 @@
 ## Deployed layout — 3 October 2026
 
 The existing public Caddy listener routes only the Oracle public-IP HTTP host,
-`exploit.myfl.uk`, and `manuals.playstation.net` to this project's loopback Nginx
+`exploit.myfl.uk`, and both `manuals.playstation.net` / `manuals.playstation.com` to this project's loopback Nginx
 origin. The resource site stays on Cloudflare Pages at myfl.uk. Other Caddy sites
 are preserved; the tailnet Caddy and DNS services are separate.
 
-Compose project `myfl-ps5` runs a read-only static origin and a non-recursive DNS
+Compose project `myfl-ps5` runs a read-only static origin and a restricted DNS
 server. The public DNS binds only the verified primary private interface, mapped
 by OCI to the existing public IP. No VNIC, OCI rules or existing domain records
 were changed; two DNS-only A records were added for the new subdomains.
@@ -25,7 +25,8 @@ vault credential or writable host source mount is present.
 fragmented/malformed DNS traffic; UDP has a 600-byte request bound, 20 queries/s
 per source and 300/s total limits. TCP has per-source connection/SYN limits and
 a total SYN limit. It denies NEW connections from the project bridge to the
-host or any outside destination, including OCI metadata and other workloads.
+host and outside destinations, except TCP port 53 to 1.1.1.1 and 1.0.0.1.
+OCI metadata and other workloads remain blocked.
 The bridge is not Docker's internal mode because that mode prevented published
 ports on this engine. The scoped firewall supplies the egress restriction.
 
@@ -35,9 +36,11 @@ and timeouts. Caddy replaces the private client-key header with the socket peer;
 the origin is only published on loopback. Caddy TLS termination remains part of
 the shared ingress boundary; a separate VM offers stronger kernel isolation.
 
-The DNS server answers the User’s Guide zone only and REFUSES unrelated names.
-It has no forwarder or recursion. It is not a general internet resolver or a
-comprehensive firmware-update blocker. Resource bounds and traffic limits reduce
+The DNS redirects both User’s Guide zones. PlayStation and myfl.uk names
+are forwarded to two fixed upstreams over TCP with 32 concurrent queries,
+a bounded cache and a 512-byte EDNS size. The known update.playstation.net
+branch returns NXDOMAIN; other names receive REFUSED. It is not a general
+internet resolver or a comprehensive firmware-update blocker. Resource bounds and traffic limits reduce
 abuse; they do not guarantee protection from volumetric attacks upstream of OCI.
 
 ## TLS/User’s Guide acceptance
