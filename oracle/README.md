@@ -21,7 +21,7 @@ vault credential or writable host source mount is present.
 
 ## Firewall and ingress
 
-`firewall.sh` changes only its own chain plus bridge-scoped jumps. It refuses
+`firewall.sh` changes only its own chains plus bridge-scoped jumps. It refuses
 fragmented/malformed DNS traffic; UDP has a 600-byte request bound, 20 queries/s
 per source and 300/s total limits. TCP has per-source connection/SYN limits and
 a total SYN limit. It denies NEW connections from the project bridge to the
@@ -97,12 +97,13 @@ paths, then stage a new release directory and atomically switch serving content.
 Keep the previous directory. Do not mutate a live file tree while publishing a
 new candidate. No scheduled job deploys candidates automatically.
 
-For service rollback, stop **only** this Compose project, remove only its three
+For service rollback, disable the three myfl systemd services/timer, then stop
+**only** this Compose project, remove only its three
 Caddy blocks and validate/reload Caddy, then remove only the two new Cloudflare A
 records if retiring the service. Backups of the pre-change Caddy file and firewall
 receipt are held privately on Oracle. Preserve unrelated config added since those
 backups; do not blindly restore an old whole-server config.
-Remove bridge-scoped jumps and the MYFL-PS5-IN chain only after stopping the
+Remove bridge-scoped jumps and MYFL-PS5-IN / MYFL-PS5-OUT chains only after stopping the
 containers. Never flush firewall tables, prune Docker broadly or restart other
 services. Console users restore original DNS and cached payload files separately.
 
