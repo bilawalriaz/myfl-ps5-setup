@@ -13,14 +13,14 @@ function harness(failAt) {
   vm.runInContext(source, context);
   return { sent, waits, run: () => context.runManagedPayloads({}, {}, () => {}) };
 }
-test('managed startup respects patch dependency order and upstream wait', async () => {
+test('managed startup loads only Payload Manager', async () => {
   const h = harness(); await h.run();
-  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf', 'pldmgr.elf']);
-  assert.deepEqual(h.waits, [3000]);
+  assert.deepEqual(h.sent, ['pldmgr.elf']);
+  assert.deepEqual(h.waits, []);
 });
 test('a transfer failure stops dependent services', async () => {
-  const h = harness('kstuff.elf');
+  const h = harness('pldmgr.elf');
   await assert.rejects(h.run(), /transfer failed/);
-  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf']);
+  assert.deepEqual(h.sent, ['pldmgr.elf']);
   assert.deepEqual(h.waits, []);
 });

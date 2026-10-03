@@ -16,8 +16,7 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
    resolves PlayStation and myfl.uk names, and resolves other domains normally.
    The known update.playstation.net branch returns NXDOMAIN.  Restore your
    original DNS when finished.
-3. Use the managed entry to load kernel logs, kstuff-lite, ShadowMountPlus, FTP
-   and Payload Manager automatically after Relapse. The original Relapse-only
+3. Use the managed entry to load Payload Manager automatically after Relapse. The original Relapse-only
    route stays available. The installer is a separate one-time setup.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
    after the first jailbreak and follow its upstream reboot instructions. Its
@@ -35,7 +34,7 @@ reported by GitHub and verified after downloading.
   Curated kstuff, ShadowMountPlus, FTP, klog, Payload Manager and WebKit Autoloader
   installer ELF files are copied into its **payloads/** folder.
 - `dist/autoloader/ps5_autoloader/` contains the same selected routine payloads.
-  Its autoload.txt loads the managed service set. Download autoloader.zip,
+  Its autoload.txt starts Payload Manager. Download autoloader.zip,
   extract the folder and launch the homescreen app after full boot.
 - `dist/downloads/` contains original selected release downloads/PC host.
 - `dist/sources/` contains release source archives and pinned submodule archives.
