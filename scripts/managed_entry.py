@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import zipfile
 
-PAYLOADS = ['pldmgr.elf']
+PAYLOADS = ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf']
 
 def assemble(output: Path, host: Path):
     # Read the pinned release's embedded archive without executing its Python host.

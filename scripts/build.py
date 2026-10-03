@@ -101,7 +101,7 @@ def build():
         (output / 'autoloader' / 'README.txt').write_text(
             'Launch after full boot.\n'
             'Copy ps5_autoloader to the USB root or /data/.\n'
-            'The list starts Payload Manager. Select extra services when needed.\n'
+            'The list starts logs, kstuff, ShadowMountPlus and FTP.\n'
             'The installer and local payload files are updated separately.\n')
         with zipfile.ZipFile(output / 'autoloader.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / 'autoloader').rglob('*')):
