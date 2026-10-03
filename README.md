@@ -102,3 +102,11 @@ URLs and hashes are in the manifest; original maintainer links appear on the hos
 
 This repository’s MIT license applies only to its own code. Third-party terms
 and source/build provenance limitations are recorded in THIRD_PARTY.md.
+
+## Payload Manager catalogue
+
+In Settings > Manage Sources > Add Source, add
+https://exploit.myfl.uk/payloads.json . The catalogue is generated from the pinned
+asset manifest and includes SHA-256 download verification. Choose myfl.uk PS5
+essentials to browse/download. Autoload is a separate list of installed payloads
+to launch; clearing it does not delete the hosted pack.

@@ -112,6 +112,15 @@ def build():
         shutil.copyfile(ROOT / 'deps.lock.json', output / 'manifest.json')
         page = (ROOT / 'landing.html').read_text()
         titles = {'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server'}
+        catalogue = {'name': 'myfl.uk PS5 essentials', 'payloads': []}
+        for item in manifest['assets']:
+            if item['id'] in titles:
+                name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
+                catalogue['payloads'].append({'name': titles[item['id']], 'filename': name,
+                    'url': 'https://exploit.myfl.uk/relapse/payloads/' + name,
+                    'version': item['tag'], 'checksum': item['sha256'],
+                    'category': 'Setup' if item['id'] == 'autoloader-installer' else 'Essentials'})
+        (output / 'payloads.json').write_text(json.dumps(catalogue, indent=2) + '\n')
         links = []
         for item in manifest['assets']:
             if item['id'] in titles:
