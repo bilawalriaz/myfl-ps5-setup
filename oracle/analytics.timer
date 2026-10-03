@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily myfl service request aggregates
+[Timer]
+OnCalendar=*-*-* 00:20:00 Europe/London
+Persistent=true
+[Install]
+WantedBy=timers.target

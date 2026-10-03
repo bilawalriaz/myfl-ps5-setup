@@ -1,0 +1,12 @@
+[Unit]
+Description=Scoped firewall for myfl PS5 containers
+Requires=docker.service
+After=docker.service
+PartOf=docker.service
+Before=myfl-ps5.service
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /opt/myfl-ps5/oracle/firewall.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=docker.service

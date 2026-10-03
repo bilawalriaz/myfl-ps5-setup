@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "firmware": "13.60",
+  "channel": "candidate",
+  "reviewed": "2026-10-03",
+  "hardware": "UNKNOWN: this exact bundle has not run on a console",
+  "checksum_policy": "Relapse archive SHA-256 recorded locally; release asset digests reported by GitHub. Neither establishes firmware compatibility.",
+  "relapse": {
+    "repo": "ntfargo/Relapse-Exploit",
+    "commit": "dd8e4e0914c5e9d066ee1f9b056be76cb992c8e0",
+    "url": "https://codeload.github.com/ntfargo/Relapse-Exploit/tar.gz/dd8e4e0914c5e9d066ee1f9b056be76cb992c8e0",
+    "sha256": "0040942b44a2e880f35468a10add6cf7f9cfbfa3d4cd68ddb4016ab103d3a8bb"
+  },
+  "assets": [
+    {
+      "id": "autoloader-installer",
+      "repo": "itsPLK/ps5-webkit-autoloader",
+      "tag": "v0.5.2",
+      "name": "webkit-autoloader-installer_v0.5.2.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-installer_v0.5.2.elf",
+      "sha256": "f990e48e8330231d2066a7b8ab6dc25fda83b2cc36cb426c472b35b33767451a"
+    },
+    {
+      "id": "autoloader-host",
+      "repo": "itsPLK/ps5-webkit-autoloader",
+      "tag": "v0.5.2",
+      "name": "webkit-autoloader-host_v0.5.2.py",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-host_v0.5.2.py",
+      "sha256": "6421f167d01ff1c0f3c8c2df1bf0e656691837b938aa924b3d2426c05ec2b7bf"
+    },
+    {
+      "id": "kstuff",
+      "repo": "EchoStretch/kstuff-lite",
+      "tag": "v1.11",
+      "name": "kstuff.elf",
+      "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.11/kstuff.elf",
+      "sha256": "ab9a6cb4d3b1daf139d4d646e402b1cf569071acd64599c936d7a3a6164dc779"
+    },
+    {
+      "id": "shadowmount",
+      "repo": "drakmor/ShadowMountPlus",
+      "tag": "1.7beta4",
+      "name": "shadowmountplus.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
+      "sha256": "fc4e5f715e76660ce34bde2adb10eaf1d069cb2cdf06f7a380896dfb62bd0c4a"
+    },
+    {
+      "id": "klog",
+      "repo": "ps5-payload-dev/klogsrv",
+      "tag": "v0.9",
+      "name": "klogsrv-ps5.elf",
+      "url": "https://github.com/ps5-payload-dev/klogsrv/releases/download/v0.9/klogsrv-ps5.elf",
+      "sha256": "e828ec144231f81547cb58bc7d2c396fa984be0c2295f31364b58017816dcceb"
+    },
+    {
+      "id": "ftp",
+      "repo": "ps5-payload-dev/ftpsrv",
+      "tag": "v0.21.1",
+      "name": "ftpsrv-ps5.elf",
+      "url": "https://github.com/ps5-payload-dev/ftpsrv/releases/download/v0.21.1/ftpsrv-ps5.elf",
+      "sha256": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938"
+    },
+    {
+      "id": "payload-manager",
+      "repo": "itsPLK/ps5-payload-manager",
+      "tag": "v0.5.2",
+      "name": "pldmgr_v0.5.2.elf",
+      "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.2/pldmgr_v0.5.2.elf",
+      "sha256": "62b3ba2a4937c2afc502f9a4e7242cca538610ebb4ae2800c7c6f72e7f268e7c"
+    }
+  ],
+  "sources": [
+    {
+      "repo": "EchoStretch/kstuff-lite",
+      "commit": "85fb88a526e58e357d6f1e626ce05af4acdb8b5d",
+      "url": "https://codeload.github.com/EchoStretch/kstuff-lite/tar.gz/85fb88a526e58e357d6f1e626ce05af4acdb8b5d",
+      "name": "EchoStretch-kstuff-lite-85fb88a526e5.tar.gz",
+      "sha256": "67aee7b843809810346db823b684184b1b7e06ffdf3946315cf98202fd6bf601"
+    },
+    {
+      "repo": "BearSSL/BearSSL",
+      "commit": "79c060eea3eea1257797f15ea1608a9a9923aa6f",
+      "url": "https://www.bearssl.org/gitweb/?p=BearSSL;a=snapshot;h=79c060eea3eea1257797f15ea1608a9a9923aa6f;sf=tgz",
+      "name": "BearSSL-79c060eea3ee.tar.gz",
+      "sha256": "4becb3d46bc73dddeff548c34166206cc4ace70bfa73cfdd28654108e3ae6143"
+    },
+    {
+      "repo": "libtom/libtomcrypt",
+      "commit": "b96e96cf8b22a931e8e91098ac37bc72f9e2f033",
+      "url": "https://codeload.github.com/libtom/libtomcrypt/tar.gz/b96e96cf8b22a931e8e91098ac37bc72f9e2f033",
+      "name": "libtom-libtomcrypt-b96e96cf8b22.tar.gz",
+      "sha256": "91d03f8875326e6e12dfb0bd3f6febaca8ebd3168915a790ccdbb6e35ee73543"
+    },
+    {
+      "repo": "intel/isa-l_crypto",
+      "commit": "07d0b253843ace996aa5a44f538c9b83b085aba6",
+      "url": "https://codeload.github.com/intel/isa-l_crypto/tar.gz/07d0b253843ace996aa5a44f538c9b83b085aba6",
+      "name": "intel-isa-l_crypto-07d0b253843a.tar.gz",
+      "sha256": "e4a6105f7eaeecf1425e66b3c0d1a32518d1b7d7f6acd368a0f1446399e85198"
+    },
+    {
+      "repo": "drakmor/ShadowMountPlus",
+      "commit": "d7e35e6ce90abc6f9d0880ff40c2a5cc1fbfa075",
+      "url": "https://codeload.github.com/drakmor/ShadowMountPlus/tar.gz/d7e35e6ce90abc6f9d0880ff40c2a5cc1fbfa075",
+      "name": "drakmor-ShadowMountPlus-d7e35e6ce90a.tar.gz",
+      "sha256": "1af9f9a1f99363f0fe734257fecb2e3b4ad9e5f564da686d0fc6a22bd4d3f499"
+    },
+    {
+      "repo": "itsPLK/ps5-payload-manager",
+      "commit": "e4e72dc9d831dd09ee8fabc222ad1e7f5139050e",
+      "url": "https://codeload.github.com/itsPLK/ps5-payload-manager/tar.gz/e4e72dc9d831dd09ee8fabc222ad1e7f5139050e",
+      "name": "itsPLK-ps5-payload-manager-e4e72dc9d831.tar.gz",
+      "sha256": "375e762db34b86ac1c4ac13841d1db4721b0e6a073d0e79d7a1851e1e573b390"
+    },
+    {
+      "repo": "itsPLK/ps5-payload-manager-translations",
+      "commit": "3796ce40906f8b6690ae66609b723d97ba677189",
+      "url": "https://codeload.github.com/itsPLK/ps5-payload-manager-translations/tar.gz/3796ce40906f8b6690ae66609b723d97ba677189",
+      "name": "itsPLK-ps5-payload-manager-translations-3796ce40906f.tar.gz",
+      "sha256": "b3b2a2681b3f54cfdc1bd608c3613ee22f3ea36e5c0c7b2fa7c83625d7835b05"
+    },
+    {
+      "repo": "itsPLK/ps5-webkit-autoloader",
+      "commit": "798c0dc15fd9b799437f7d1cdc172348bbe91ffb",
+      "url": "https://codeload.github.com/itsPLK/ps5-webkit-autoloader/tar.gz/798c0dc15fd9b799437f7d1cdc172348bbe91ffb",
+      "name": "itsPLK-ps5-webkit-autoloader-798c0dc15fd9.tar.gz",
+      "sha256": "5cd1fc348a2d69238c24514009b6847439f25dbc864636199d255cbac64601bb"
+    },
+    {
+      "repo": "itsPLK/ps5-unified-autoloader",
+      "commit": "915a65e232e03e293829e34bca18866659b2bcf4",
+      "url": "https://codeload.github.com/itsPLK/ps5-unified-autoloader/tar.gz/915a65e232e03e293829e34bca18866659b2bcf4",
+      "name": "itsPLK-ps5-unified-autoloader-915a65e232e0.tar.gz",
+      "sha256": "c49581b4bc8e3c739b5e3c4597f63241e1fc9ca6a28b7ee7236c5184016fb006"
+    },
+    {
+      "repo": "idlesauce/umtx2",
+      "commit": "a080beb74d9e4bc34f3563798b716bd86b2d6ee0",
+      "url": "https://codeload.github.com/idlesauce/umtx2/tar.gz/a080beb74d9e4bc34f3563798b716bd86b2d6ee0",
+      "name": "idlesauce-umtx2-a080beb74d9e.tar.gz",
+      "sha256": "8855b2047d2bdf955a64409fdba5cd87b2d6cdc3a445403f6c13e9a59e2fefcb"
+    },
+    {
+      "repo": "itsPLK/ps5-elfldr",
+      "commit": "bb1e117988217a0239679029601e93c7286394d7",
+      "url": "https://codeload.github.com/itsPLK/ps5-elfldr/tar.gz/bb1e117988217a0239679029601e93c7286394d7",
+      "name": "itsPLK-ps5-elfldr-bb1e11798821.tar.gz",
+      "sha256": "1a94aa01ba75fde63cd3ff571b279fda14183b13e179105f03554a761acfb5ff"
+    },
+    {
+      "repo": "ntfargo/Relapse-Exploit",
+      "commit": "d8e6896b5cb33b04f1e038a5d698d3d4aee5947c",
+      "url": "https://codeload.github.com/ntfargo/Relapse-Exploit/tar.gz/d8e6896b5cb33b04f1e038a5d698d3d4aee5947c",
+      "name": "ntfargo-Relapse-Exploit-d8e6896b5cb3.tar.gz",
+      "sha256": "52ee7b7532a61d102cf776e933256138954738b3ba22e1ef9d0e1a747c0ee1b4"
+    },
+    {
+      "repo": "itsPLK/slopkit",
+      "commit": "e69a21762f8d12479443502ce19ea4a575295c48",
+      "url": "https://codeload.github.com/itsPLK/slopkit/tar.gz/e69a21762f8d12479443502ce19ea4a575295c48",
+      "name": "itsPLK-slopkit-e69a21762f8d.tar.gz",
+      "sha256": "c37a3c7fcf8ea373029c0f25174a0f506b25f6f34a45a47b79c2af8f5970e6ee"
+    },
+    {
+      "repo": "ps5-payload-dev/ftpsrv",
+      "commit": "70f7b8614d3f36f6ceda0a37d6189b675f9d3f29",
+      "url": "https://codeload.github.com/ps5-payload-dev/ftpsrv/tar.gz/70f7b8614d3f36f6ceda0a37d6189b675f9d3f29",
+      "name": "ps5-payload-dev-ftpsrv-70f7b8614d3f.tar.gz",
+      "sha256": "43cce09b160ba5b9a1cf9f831f3e05c971fc41cc35443af444b3a7e482d095d8"
+    },
+    {
+      "repo": "ps5-payload-dev/klogsrv",
+      "commit": "c1b64bd3d3b069a09b1a173a82858cba97a5656f",
+      "url": "https://codeload.github.com/ps5-payload-dev/klogsrv/tar.gz/c1b64bd3d3b069a09b1a173a82858cba97a5656f",
+      "name": "ps5-payload-dev-klogsrv-c1b64bd3d3b0.tar.gz",
+      "sha256": "0174ab13114d61322f4fb64447bedf2df4e9fe1111c1238fec48135631a6c87e"
+    },
+    {
+      "repo": "ps5-payload-dev/sdk",
+      "commit": "f7fd02e6e195902a449b5e664917be8c01888b34",
+      "url": "https://codeload.github.com/ps5-payload-dev/sdk/tar.gz/f7fd02e6e195902a449b5e664917be8c01888b34",
+      "name": "ps5-payload-dev-sdk-f7fd02e6e195.tar.gz",
+      "sha256": "46c13a204a23d639a2b336dd9524991e49a34ea2c6dfcf32582671564a9e18f1"
+    }
+  ]
+}

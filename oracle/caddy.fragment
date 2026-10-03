@@ -1,0 +1,22 @@
+# Replace only the verified address placeholders at deployment; preserve other sites.
+http://PUBLIC_IP, http://exploit.myfl.uk, http://manuals.playstation.net {
+    bind PRIVATE_IP
+    reverse_proxy 127.0.0.1:ORIGIN_PORT {
+        header_up X-Myfl-Client {remote_host}
+    }
+}
+exploit.myfl.uk {
+    bind PRIVATE_IP
+    reverse_proxy 127.0.0.1:ORIGIN_PORT {
+        header_up X-Myfl-Client {remote_host}
+    }
+}
+# A locally generated certificate serves only the intentionally redirected guide.
+# PS5 certificate acceptance remains pending until measured on 13.60.
+https://manuals.playstation.net {
+    bind PRIVATE_IP
+    tls /etc/caddy/myfl-guide/cert.pem /etc/caddy/myfl-guide/key.pem
+    reverse_proxy 127.0.0.1:ORIGIN_PORT {
+        header_up X-Myfl-Client {remote_host}
+    }
+}

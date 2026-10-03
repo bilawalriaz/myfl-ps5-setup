@@ -1,0 +1,12 @@
+[Unit]
+Description=myfl PS5 static host and restricted DNS
+Requires=docker.service myfl-ps5-firewall.service
+After=docker.service myfl-ps5-firewall.service network-online.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/myfl-ps5/oracle
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose stop
+[Install]
+WantedBy=multi-user.target
