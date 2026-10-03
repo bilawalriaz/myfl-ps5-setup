@@ -36,16 +36,15 @@ and timeouts. Caddy replaces the private client-key header with the socket peer;
 the origin is only published on loopback. Caddy TLS termination remains part of
 the shared ingress boundary; a separate VM offers stronger kernel isolation.
 
-The DNS redirects both User’s Guide zones. PlayStation and myfl.uk names
+The DNS redirects both User’s Guide zones. Other names
 are forwarded to two fixed upstreams over TCP with 32 concurrent queries,
 a bounded cache and a 512-byte EDNS size. The known update.playstation.net
-branch returns NXDOMAIN; other names receive REFUSED. It is not a general
-internet resolver or a comprehensive firmware-update blocker. Resource bounds and traffic limits reduce
+branch returns NXDOMAIN. Ordinary domains resolve through the upstreams. Resource bounds and traffic limits reduce
 abuse; they do not guarantee protection from volumetric attacks upstream of OCI.
 
 ## TLS/User’s Guide acceptance
 
-The source-confirmed `/document/<language>/ps5/` paths map to the Relapse tree,
+The source-confirmed `/document/<language>/ps5/` paths map to the managed Relapse tree,
 including its relative source and payload URLs. A locally generated RSA certificate
 serves only `manuals.playstation.net`; it is not publicly trusted, and it is not
 an upstream shared private key. Console certificate acceptance remains [UNKNOWN].

@@ -5,7 +5,7 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
 
 - Resource site and beginner guide: https://myfl.uk
 - Hosted setup: https://exploit.myfl.uk (also http://130.162.174.95)
-- Restricted DNS endpoint: **130.162.174.95** (`dns.myfl.uk`)
+- DNS endpoint: **130.162.174.95** (`dns.myfl.uk`)
 
 ## First use
 
@@ -13,11 +13,12 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
 2. Use the direct hosted Relapse link if you already have a console-browser entry.
    For a User’s Guide trial, set the console DNS to the endpoint above and open
    the User’s Guide from Settings. Set both DNS fields to the endpoint. This redirects both guide hostnames,
-   resolves PlayStation and myfl.uk names, and refuses unrelated domains.
-   The known update.playstation.net branch returns NXDOMAIN. Some apps may fail to resolve. Restore your
+   resolves PlayStation and myfl.uk names, and resolves other domains normally.
+   The known update.playstation.net branch returns NXDOMAIN.  Restore your
    original DNS when finished.
-3. After the chain runs, load only the payloads your app needs. The hosted Relapse
-   code is unchanged and does not automatically run all curated extras.
+3. Use the managed entry to load kernel logs, kstuff-lite, ShadowMountPlus, FTP
+   and Payload Manager automatically after Relapse. The original Relapse-only
+   route stays available. The installer is a separate one-time setup.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
    after the first jailbreak and follow its upstream reboot instructions. Its
    cached entry, local payload files and default console-only loader are distinct
@@ -34,7 +35,8 @@ reported by GitHub and verified after downloading.
   Curated kstuff, ShadowMountPlus, FTP, klog, Payload Manager and WebKit Autoloader
   installer ELF files are copied into its **payloads/** folder.
 - `dist/autoloader/ps5_autoloader/` contains the same selected routine payloads.
-  No heavy boot list is shipped: Payload Manager remains the initial default.
+  Its autoload.txt loads the managed service set. Download autoloader.zip,
+  extract the folder and launch the homescreen app after full boot.
 - `dist/downloads/` contains original selected release downloads/PC host.
 - `dist/sources/` contains release source archives and pinned submodule archives.
 - `dist/manifest.json` and `SHA256SUMS` record exact candidate bytes for rollback.

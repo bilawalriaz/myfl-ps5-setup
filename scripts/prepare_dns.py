@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare an restricted PlayStation DNS config for an explicit address."""
+"""Prepare a PlayStation entry DNS config for an explicit address."""
 import argparse
 import ipaddress
 from pathlib import Path
@@ -21,7 +21,8 @@ blocks.append("""update.playstation.net:1053 {
     }
     errors
 }
-playstation.net:1053 playstation.com:1053 myfl.uk:1053 {
+.:1053 {
+    prometheus 0.0.0.0:9153
     bufsize 512
     cache 60 {
         success 1024
@@ -31,13 +32,6 @@ playstation.net:1053 playstation.com:1053 myfl.uk:1053 {
         force_tcp
         max_concurrent 32
         max_fails 0
-    }
-    errors
-}
-.:1053 {
-    prometheus 0.0.0.0:9153
-    template ANY ANY {
-        rcode REFUSED
     }
     errors
 }

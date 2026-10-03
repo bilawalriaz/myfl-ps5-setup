@@ -23,6 +23,7 @@ jobs:
           python3 scripts/update.py
           if git diff --quiet -- deps.lock.json; then exit 0; fi
           python3 scripts/build.py
+          node --test scripts/test_managed_entry.mjs
           git fetch origin automation/upstream-candidate || true
           git checkout -B automation/upstream-candidate
           git config user.name 'myfl update tracker'

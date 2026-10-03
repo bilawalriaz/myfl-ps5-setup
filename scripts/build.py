@@ -10,6 +10,8 @@ import struct
 import tarfile
 import tempfile
 import urllib.request
+import zipfile
+from managed_entry import assemble, PAYLOADS
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_DOWNLOAD = 128 * 1024 * 1024
@@ -86,6 +88,8 @@ def build():
                 # Curated, independently pinned extras share the upstream loader folder.
                 name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
                 (output / 'relapse' / 'payloads' / name).write_bytes(data)
+        host = next(item for item in manifest['assets'] if item['id'] == 'autoloader-host')
+        assemble(output, output / 'downloads' / host['name'])
         for payload in (output / 'relapse' / 'payloads').glob('*.elf'):
             check_elf(payload.read_bytes())
         manual = output / 'autoloader' / 'ps5_autoloader'
@@ -93,13 +97,18 @@ def build():
         for item in manifest['assets']:
             if item['id'] in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager'):
                 shutil.copyfile(output / 'downloads' / item['name'], manual / ('pldmgr.elf' if item['id'] == 'payload-manager' else item['name']))
-        # No autoload.txt by default: preserve upstream's interactive Payload Manager.
-        # Heavy patches remain deliberate post-boot actions until this tuple is tested.
+        (manual / 'autoload.txt').write_text('\n'.join(PAYLOADS) + '\n')
         (output / 'autoloader' / 'README.txt').write_text(
-            'CANDIDATE, NOT CONSOLE-TESTED. Launch after full boot.\n'
-            'No autoload.txt is shipped: Payload Manager remains the default.\n'
-            'Select kstuff before ShadowMountPlus when needed; confirm each service.\n'
-            'The installer does not refresh payload files. Update them separately.\n')
+            'Launch after full boot.\n'
+            'Copy ps5_autoloader to the USB root or /data/.\n'
+            'The list loads logs, kstuff, ShadowMountPlus, FTP and Payload Manager.\n'
+            'The installer and local payload files are updated separately.\n')
+        with zipfile.ZipFile(output / 'autoloader.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+            for file in sorted((output / 'autoloader').rglob('*')):
+                if file.is_file():
+                    entry = zipfile.ZipInfo(str(file.relative_to(output / 'autoloader')), (1980, 1, 1, 0, 0, 0))
+                    entry.compress_type = zipfile.ZIP_DEFLATED
+                    archive.writestr(entry, file.read_bytes())
         shutil.copyfile(ROOT / 'deps.lock.json', output / 'manifest.json')
         page = (ROOT / 'landing.html').read_text()
         titles = {'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server'}
