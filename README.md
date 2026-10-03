@@ -7,11 +7,6 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
 - Hosted setup: https://exploit.myfl.uk (also http://130.162.174.95)
 - Restricted DNS endpoint: **130.162.174.95** (`dns.myfl.uk`)
 
-[UNKNOWN] The exact assembled combination and hosted HTTPS/User’s Guide path
-have not been accepted on a physical 13.60 console. It is a **candidate**, not a
-known-good stable stack. Keep system updates off; firmware compatibility and
-jailbreak success are separate from successful hosting/download tests.
-
 ## First use
 
 1. Read the beginner guide and confirm firmware 13.60. Fully boot the console.
@@ -20,7 +15,7 @@ jailbreak success are separate from successful hosting/download tests.
    the User’s Guide from Settings. Set both DNS fields to the endpoint. This redirects both guide hostnames,
    resolves PlayStation and myfl.uk names, and refuses unrelated domains.
    The known update.playstation.net branch returns NXDOMAIN. Some apps may fail to resolve. Restore your
-   original DNS when finished. PS5 TLS/certificate acceptance remains pending.
+   original DNS when finished.
 3. After the chain runs, load only the payloads your app needs. The hosted Relapse
    code is unchanged and does not automatically run all curated extras.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
@@ -89,9 +84,8 @@ it does not update them. An installed-manifest updater is not implemented here.
 
 See [Oracle operation and rollback](oracle/README.md). Application containers run
 without root, capabilities, host/Docker sockets or writable source mounts. Scoped
-firewall rules deny new container egress and limit incoming DNS; Nginx limits
-requests/connections. This reduces exposure but does not guarantee immunity to
-attacks or upstream network flooding. Docker shares the host kernel.
+firewall rules allow DNS traffic to the two fixed upstreams and block other new
+container connections. DNS and HTTP request rates are limited.
 
 Access logs omit client IPs, query strings, cookies and user agents. DNS query
 logging is disabled. Private daily HTTP aggregates and DNS response counters are
