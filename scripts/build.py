@@ -102,13 +102,13 @@ def build():
         manual = output / 'autoloader' / 'ps5_autoloader'
         manual.mkdir(parents=True)
         for item in assets:
-            if item.get('id') in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager', 'orbit-torbox'):
+            if item.get('id') in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager', 'orbit-torbox', 'onionhen'):
                 shutil.copyfile(output / 'downloads' / item['name'], manual / ('pldmgr.elf' if item['id'] == 'payload-manager' else item['name']))
         (manual / 'autoload.txt').write_text('\n'.join(PAYLOADS) + '\n')
         (output / 'autoloader' / 'README.txt').write_text(
             'Launch after full boot.\n'
             'Copy ps5_autoloader to the USB root or /data/.\n'
-            'The list starts logs, kstuff, ShadowMountPlus, FTP and Orbit TorBox.\n'
+            'The list starts logs, kstuff, ShadowMountPlus, FTP, Orbit TorBox and OnionHEN.\n'
             'The installer and local payload files are updated separately.\n')
         with zipfile.ZipFile(output / 'autoloader.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / 'autoloader').rglob('*')):
@@ -118,7 +118,7 @@ def build():
                     archive.writestr(entry, file.read_bytes())
         (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
         page = (ROOT / 'landing.html').read_text()
-        titles = {'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server', 'orbit-upstream': 'Orbit Store (upstream)', 'orbit-torbox': 'Orbit Store with TorBox', 'autoloader-preview-installer': 'WebKit Autoloader installer (prerelease)'}
+        titles = {'onionhen': 'OnionHEN', 'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server', 'orbit-upstream': 'Orbit Store (upstream)', 'orbit-torbox': 'Orbit Store with TorBox', 'autoloader-preview-installer': 'WebKit Autoloader installer (prerelease)'}
         catalogue = {'name': 'myfl.uk PS5 essentials', 'payloads': []}
         for item in assets:
             if item.get('id') in titles:

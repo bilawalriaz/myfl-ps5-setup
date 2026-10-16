@@ -13,9 +13,9 @@ function harness(failAt) {
   vm.runInContext(source, context);
   return { sent, waits, run: () => context.runManagedPayloads({}, {}, () => {}) };
 }
-test('automatic startup respects patch dependency order without launching Payload Manager', async () => {
+test('automatic startup loads OnionHEN once after the core services', async () => {
   const h = harness(); await h.run();
-  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf', 'orbit-torbox.elf']);
+  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf', 'orbit-torbox.elf', 'OnionHEN.elf']);
   assert.deepEqual(h.waits, [3000]);
 });
 test('a transfer failure stops dependent services', async () => {

@@ -83,6 +83,14 @@
       "name": "webkit-autoloader-host_v0.5.2.py",
       "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-host_v0.5.2.py",
       "sha256": "6421f167d01ff1c0f3c8c2df1bf0e656691837b938aa924b3d2426c05ec2b7bf"
+    },
+    {
+      "id": "onionhen",
+      "repo": "aydencharles/onionHEN",
+      "tag": "v0.9.0",
+      "name": "OnionHEN.elf",
+      "url": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0/OnionHEN.elf",
+      "sha256": "1f1f7c883d5d998be1d95d7d80b718f85180f8156f257661b0f445a7c6b7c212"
     }
   ],
   "sources": [
@@ -225,6 +233,13 @@
       "url": "https://codeload.github.com/ps5-payload-dev/sdk/tar.gz/f7fd02e6e195902a449b5e664917be8c01888b34",
       "name": "ps5-payload-dev-sdk-f7fd02e6e195.tar.gz",
       "sha256": "46c13a204a23d639a2b336dd9524991e49a34ea2c6dfcf32582671564a9e18f1"
+    },
+    {
+      "repo": "aydencharles/onionHEN",
+      "commit": "aaa4264588e00da33faccc7642d27c3c4cc339b1",
+      "url": "https://codeload.github.com/aydencharles/onionHEN/tar.gz/aaa4264588e00da33faccc7642d27c3c4cc339b1",
+      "name": "aydencharles-onionHEN-aaa4264588e0.tar.gz",
+      "sha256": "ecc4d230983fa4fe9b780bddac9a340f4193d96524d4411063c344e544118bd3"
     }
   ]
 }

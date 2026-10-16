@@ -16,6 +16,7 @@ copyright notices are retained inside those archives.
 |---|---|
 | Relapse | ntfargo/Relapse-Exploit, MIT, source commit in manifest |
 | WebKit Autoloader | itsPLK/ps5-webkit-autoloader, GPL-3.0; release source and submodules included |
+| OnionHEN | aydencharles/onionHEN, GPL-3.0; unmodified v0.9.0 release, pinned corresponding source archive included |
 | Payload Manager | itsPLK/ps5-payload-manager, GPL-3.0; release source included |
 | ShadowMountPlus | drakmor/ShadowMountPlus, GPL-3.0; release source included |
 | FTP and kernel log servers | ps5-payload-dev/ftpsrv and klogsrv, GPL-3.0-or-later; source included |

@@ -16,7 +16,7 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
    resolves PlayStation and myfl.uk names, and resolves other domains normally.
    The known update.playstation.net branch returns NXDOMAIN.  Restore your
    original DNS when finished.
-3. Use the managed entry to load logs, kstuff, ShadowMountPlus, FTP and Orbit with TorBox after Relapse. The original Relapse-only
+3. Use the managed entry to load logs, kstuff, ShadowMountPlus, FTP, Orbit with TorBox and OnionHEN after Relapse. The original Relapse-only
    route stays available. The installer is a separate one-time setup.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
    after the first jailbreak and follow its upstream reboot instructions. Its
@@ -34,7 +34,7 @@ reported by GitHub and verified after downloading.
   Curated kstuff, ShadowMountPlus, FTP, klog, Payload Manager and WebKit Autoloader
   installer ELF files are copied into its **payloads/** folder.
 - `dist/autoloader/ps5_autoloader/` contains the same selected routine payloads.
-  Its autoload.txt starts the same five services. Download autoloader.zip,
+  Its autoload.txt starts the same six services. Download autoloader.zip,
   extract the folder and launch the homescreen app after full boot.
 - `dist/downloads/` contains original selected release downloads/PC host.
 - `dist/sources/` contains release source archives and pinned submodule archives.
@@ -134,3 +134,13 @@ Download the ProsperoStore ZIP from the install page, extract `PPSA99000`, and c
 ## ProsperoEden
 
 The hosted downloads include the pinned ProsperoEden v1.003.000 app ZIP. Extract it and copy its `PPSA99008` folder to `/data/homebrew/PPSA99008`; ShadowMountPlus scans and registers the app. The managed exploit starts the payload services, then return to the home screen and open ProsperoEden. Its bundled Lapy helper runs when the app needs it, so it is not part of the automatic ELF list. The console's ELF loader on TCP 9021 must be available for the app's update feature.
+
+
+## OnionHEN
+
+Managed startup loads OnionHEN v0.9.0 once, after Orbit. Open Settings when
+startup finishes to use its toolbox, cheats and overlay. The earlier kstuff
+step supplies kernel patches; OnionHEN detects it and skips its bundled copy.
+The autoloader ZIP uses the same order. Do not load etaHEN alongside OnionHEN.
+Restart before switching HEN setups. Keep FTP and ShadowMountPlus as the
+separate services supplied in this bundle.
