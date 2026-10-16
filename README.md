@@ -16,7 +16,7 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
    resolves PlayStation and myfl.uk names, and resolves other domains normally.
    The known update.playstation.net branch returns NXDOMAIN.  Restore your
    original DNS when finished.
-3. Use the managed entry to load logs, kstuff, ShadowMountPlus and FTP after Relapse. The original Relapse-only
+3. Use the managed entry to load logs, kstuff, ShadowMountPlus, FTP and Orbit with TorBox after Relapse. The original Relapse-only
    route stays available. The installer is a separate one-time setup.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
    after the first jailbreak and follow its upstream reboot instructions. Its
@@ -26,7 +26,7 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
 ## What the assembly produces
 
 `deps.lock.json` identifies the upstream Relapse commit, loader-containing source
-archive, separate payload release assets and sixteen pinned source archives.
+archive, separate payload release assets and pinned source archives.
 Checksums for source archives are locally recorded; binary asset digests were
 reported by GitHub and verified after downloading.
 
@@ -34,7 +34,7 @@ reported by GitHub and verified after downloading.
   Curated kstuff, ShadowMountPlus, FTP, klog, Payload Manager and WebKit Autoloader
   installer ELF files are copied into its **payloads/** folder.
 - `dist/autoloader/ps5_autoloader/` contains the same selected routine payloads.
-  Its autoload.txt starts the same four services. Download autoloader.zip,
+  Its autoload.txt starts the same five services. Download autoloader.zip,
   extract the folder and launch the homescreen app after full boot.
 - `dist/downloads/` contains original selected release downloads/PC host.
 - `dist/sources/` contains release source archives and pinned submodule archives.
@@ -110,3 +110,27 @@ https://exploit.myfl.uk/payloads.json . The catalogue is generated from the pinn
 asset manifest and includes SHA-256 download verification. Choose myfl.uk PS5
 essentials to browse/download. Autoload is a separate list of installed payloads
 to launch; clearing it does not delete the hosted pack.
+
+## Orbit and TorBox
+
+Both Micro and Oracle start Orbit with TorBox after the core payloads. Open the installed Orbit TV app once startup finishes. The hosted payload does not install the TV app.
+
+The payload catalogue offers official Orbit 1.3.5 with TorBox support. Run one Orbit service per boot. The automatic list uses that upstream service. Open Orbit in a browser, then App settings > TorBox to enter your own key. Keys stay in `/data/orbit-store/debrid.json` on the console; hosted payloads and sources contain no account settings.
+
+[orbit.lock.json](orbit.lock.json) pins the service, TV app 1.7.0 and full upstream source bundle. Builder downloads verify the GitHub release asset SHA-256 values.
+
+WebKit Autoloader v0.6.1 is available as a separate installer download. The hosted entry keeps its v0.5.2 transfer routines. Installers update the homescreen entry; they do not replace saved payload files.
+
+The `orbit-torbox.elf` filename is retained for existing autoload lists; its bytes are the official Orbit 1.3.5 release. Download `/downloads/PPSA99177.ffpkg` for the matching TV app.
+
+After updating the download service, choose Stop Orbit in App settings, then close and reopen the TV app. The replacement starts after the old service exits. To restart manually, load `/data/orbit-store/orbit_store.elf` from your payload manager.
+
+## ProsperoStore
+
+Download the ProsperoStore ZIP from the install page, extract `PPSA99000`, and copy that folder to `/data/homebrew/PPSA99000`. ShadowMountPlus registers the home-screen icon during its scan. ProsperoStore needs ShadowMountPlus 1.7beta4 or newer and the local ELF loader on TCP 9021. This native app is a separate download; it is not part of the automatic ELF list.
+
+[prosperostore.lock.json](prosperostore.lock.json) pins the v1.000.070 release ZIP and source archive. The builder checks both SHA-256 values.
+
+## ProsperoEden
+
+The hosted downloads include the pinned ProsperoEden v1.003.000 app ZIP. Extract it and copy its `PPSA99008` folder to `/data/homebrew/PPSA99008`; ShadowMountPlus scans and registers the app. The managed exploit starts the payload services, then return to the home screen and open ProsperoEden. Its bundled Lapy helper runs when the app needs it, so it is not part of the automatic ELF list. The console's ELF loader on TCP 9021 must be available for the app's update feature.

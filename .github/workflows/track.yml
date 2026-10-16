@@ -20,6 +20,7 @@ jobs:
         run: |
           python3 scripts/track.py >> "$GITHUB_STEP_SUMMARY"
           python3 scripts/test_build.py
+          python3 scripts/test_track.py
           python3 scripts/update.py
           if git diff --quiet -- deps.lock.json; then exit 0; fi
           python3 scripts/build.py

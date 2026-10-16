@@ -14,12 +14,13 @@ import zipfile
 from managed_entry import assemble, PAYLOADS
 
 ROOT = Path(__file__).resolve().parents[1]
-MAX_DOWNLOAD = 128 * 1024 * 1024
+MAX_DOWNLOAD = 384 * 1024 * 1024  # Orbit release source bundle includes dependency sources.
+MAX_ARCHIVE_EXPANSION = 128 * 1024 * 1024
 
 
 def download(item):
-    if not item['url'].startswith(('https://github.com/', 'https://codeload.github.com/', 'https://www.bearssl.org/gitweb/')):
-        raise ValueError('Only pinned GitHub inputs are allowed')
+    if not item['url'].startswith(('https://github.com/', 'https://codeload.github.com/', 'https://www.bearssl.org/gitweb/', 'https://exploit.myfl.uk/downloads/', 'https://exploit.myfl.uk/sources/')):
+        raise ValueError('Only approved pinned input hosts are allowed')
     with urllib.request.urlopen(item['url'], timeout=60) as response:
         data = response.read(MAX_DOWNLOAD + 1)
     if len(data) > MAX_DOWNLOAD:
@@ -59,7 +60,7 @@ def extract(data, target, prefix):
             if not member.isfile():
                 raise ValueError('Archive links and special files are forbidden')
             total += member.size
-            if total > MAX_DOWNLOAD:
+            if total > MAX_ARCHIVE_EXPANSION:
                 raise ValueError('Expanded archive exceeds size limit')
             dest = target.joinpath(*path.parts[1:])
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -69,6 +70,9 @@ def extract(data, target, prefix):
 
 def build():
     manifest = json.loads((ROOT / 'deps.lock.json').read_text())
+    manifest['orbit'] = json.loads((ROOT / 'orbit.lock.json').read_text())
+    manifest['prosperostore'] = json.loads((ROOT / 'prosperostore.lock.json').read_text())
+    assets = manifest['assets'] + manifest['orbit']['assets'] + [manifest['orbit']['tv_app'], manifest['prosperostore']['asset']]
     destination = ROOT / 'dist'
     if destination.exists():
         raise SystemExit('dist exists; keep it for rollback or move it before building')
@@ -77,31 +81,34 @@ def build():
         output.mkdir()
         relapse = manifest['relapse']
         extract(download(relapse), output / 'relapse', 'Relapse-Exploit-' + relapse['commit'])
-        for item in manifest['assets']:
+        for item in assets:
             data = download(item)
             if item['name'].endswith('.elf'):
                 check_elf(data)
             dest = output / 'downloads' / item['name']
             dest.parent.mkdir(exist_ok=True)
             dest.write_bytes(data)
+            if item.get('id', '').startswith('orbit-'):
+                # Keep the versioned input URL available after rebuilding this host.
+                (output / 'downloads' / item['url'].rsplit('/', 1)[-1]).write_bytes(data)
             if item['name'].endswith('.elf'):
                 # Curated, independently pinned extras share the upstream loader folder.
                 name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
                 (output / 'relapse' / 'payloads' / name).write_bytes(data)
-        host = next(item for item in manifest['assets'] if item['id'] == 'autoloader-host')
+        host = next(item for item in manifest['assets'] if item['id'] == 'autoloader-transport-host')
         assemble(output, output / 'downloads' / host['name'])
         for payload in (output / 'relapse' / 'payloads').glob('*.elf'):
             check_elf(payload.read_bytes())
         manual = output / 'autoloader' / 'ps5_autoloader'
         manual.mkdir(parents=True)
-        for item in manifest['assets']:
-            if item['id'] in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager'):
+        for item in assets:
+            if item.get('id') in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager', 'orbit-torbox'):
                 shutil.copyfile(output / 'downloads' / item['name'], manual / ('pldmgr.elf' if item['id'] == 'payload-manager' else item['name']))
         (manual / 'autoload.txt').write_text('\n'.join(PAYLOADS) + '\n')
         (output / 'autoloader' / 'README.txt').write_text(
             'Launch after full boot.\n'
             'Copy ps5_autoloader to the USB root or /data/.\n'
-            'The list starts logs, kstuff, ShadowMountPlus and FTP.\n'
+            'The list starts logs, kstuff, ShadowMountPlus, FTP and Orbit TorBox.\n'
             'The installer and local payload files are updated separately.\n')
         with zipfile.ZipFile(output / 'autoloader.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / 'autoloader').rglob('*')):
@@ -109,12 +116,12 @@ def build():
                     entry = zipfile.ZipInfo(str(file.relative_to(output / 'autoloader')), (1980, 1, 1, 0, 0, 0))
                     entry.compress_type = zipfile.ZIP_DEFLATED
                     archive.writestr(entry, file.read_bytes())
-        shutil.copyfile(ROOT / 'deps.lock.json', output / 'manifest.json')
+        (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
         page = (ROOT / 'landing.html').read_text()
-        titles = {'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server'}
+        titles = {'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server', 'orbit-upstream': 'Orbit Store (upstream)', 'orbit-torbox': 'Orbit Store with TorBox', 'autoloader-preview-installer': 'WebKit Autoloader installer (prerelease)'}
         catalogue = {'name': 'myfl.uk PS5 essentials', 'payloads': []}
-        for item in manifest['assets']:
-            if item['id'] in titles:
+        for item in assets:
+            if item.get('id') in titles:
                 name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
                 catalogue['payloads'].append({'name': titles[item['id']], 'filename': name,
                     'url': 'https://exploit.myfl.uk/relapse/payloads/' + name,
@@ -122,16 +129,22 @@ def build():
                     'category': 'Setup' if item['id'] == 'autoloader-installer' else 'Essentials'})
         (output / 'payloads.json').write_text(json.dumps(catalogue, indent=2) + '\n')
         links = []
-        for item in manifest['assets']:
-            if item['id'] in titles:
+        for item in assets:
+            if item.get('id') in titles:
                 name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
-                links.append('<li><a href="/relapse/payloads/' + html.escape(name, quote=True) + '">' + html.escape(titles[item['id']] + ' ' + item['tag']) + '</a> — <a href="https://github.com/' + item['repo'] + '/releases/tag/' + html.escape(item['tag'], quote=True) + '">release instructions</a></li>')
+                instructions = ('/sources/' + manifest['orbit']['sources'][0]['name'] if item['id'] == 'orbit-torbox' else 'https://github.com/' + item['repo'] + '/releases/tag/' + html.escape(item['tag'], quote=True))
+                links.append('<li><a href="/relapse/payloads/' + html.escape(name, quote=True) + '">' + html.escape(titles[item['id']] + ' ' + item['tag']) + '</a> - <a href="' + instructions + '">source / instructions</a></li>')
         begin, end = page.index('<ul>'), page.index('</ul>') + len('</ul>')
+        prosperostore = manifest['prosperostore']['asset']
+        links.append('<li><a href="/downloads/' + html.escape(prosperostore['name'], quote=True) + '">ProsperoStore ' + html.escape(prosperostore['tag']) + ' app ZIP</a> - extract PPSA99000 and copy it to /data/homebrew/PPSA99000; ShadowMountPlus registers it during its scan.</li>')
+        eden = next(item for item in assets if item.get('id') == 'prosperoeden-app')
+        links.append('<li><a href="/downloads/' + html.escape(eden['name'], quote=True) + '">ProsperoEden ' + html.escape(eden['tag']) + ' app ZIP</a> - copy its PPSA99008 folder to /data/homebrew/PPSA99008; ShadowMountPlus registers the app during its scan.</li>')
+        links.append('<li><a href="/downloads/PPSA99177.ffpkg">Orbit Store TV app ' + html.escape(manifest['orbit']['tv_app']['version']) + '</a> - copy to /data/homebrew/ and let ShadowMountPlus register it.</li>')
         page = page[:begin] + '<ul>' + ''.join(links) + '</ul>' + page[end:]
         (output / 'index.html').write_text(page)
         source_dir = output / 'sources'
         source_dir.mkdir()
-        for item in manifest.get('sources', []):
+        for item in manifest.get('sources', []) + manifest['orbit']['sources'] + manifest['prosperostore']['sources']:
             (source_dir / item['name']).write_bytes(download(item))
         shutil.copyfile(ROOT / 'THIRD_PARTY.md', output / 'THIRD_PARTY.md')
         hashes = {str(path.relative_to(output)): hashlib.sha256(path.read_bytes()).hexdigest()

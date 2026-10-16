@@ -15,7 +15,7 @@ function harness(failAt) {
 }
 test('automatic startup respects patch dependency order without launching Payload Manager', async () => {
   const h = harness(); await h.run();
-  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf']);
+  assert.deepEqual(h.sent, ['klogsrv-ps5.elf', 'kstuff.elf', 'shadowmountplus.elf', 'ftpsrv-ps5.elf', 'orbit-torbox.elf']);
   assert.deepEqual(h.waits, [3000]);
 });
 test('a transfer failure stops dependent services', async () => {

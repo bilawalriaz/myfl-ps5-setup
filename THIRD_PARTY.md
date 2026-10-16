@@ -2,7 +2,7 @@
 
 This assembly preserves the Relapse entry code and its MIT LICENSE, author credits
 and firmware-specific loader. Curated downloads replace only independently pinned
-payload files; they are unmodified upstream release assets. myfl.uk is not their
+payload files; upstream assets are unmodified. Orbit is the unmodified upstream GPL-3.0-or-later release with TorBox support. myfl.uk is not their
 original maintainer. The MIT license for this repository applies only to its own
 assembly, hosting and tracking code, not to third-party payloads or archives.
 
@@ -22,6 +22,9 @@ copyright notices are retained inside those archives.
 | kstuff-lite | EchoStretch/kstuff-lite; upstream has no top-level LICENSE; do not represent it as MIT or GPL without component evidence. Source and pinned crypto submodules included. |
 | BearSSL | Official pinned source snapshot, MIT license inside archive |
 | libtomcrypt, isa-l_crypto | Their pinned upstream source and notices inside archives |
+| Orbit Store | saawant12/orbit-store-ps5, GPL-3.0-or-later; upstream 1.3.5 full source and dependency bundle included |
+| ProsperoEden | blackbearreloaded/ProsperoEden, GPL-3.0; unmodified v1.003.000 release ZIP, source at the pinned upstream tag |
+| ProsperoStore | blackbearreloaded/ProsperoStore, GPL-3.0-or-later; unmodified v1.000.070 release ZIP, source at the pinned upstream commit |
 | PS5 payload SDK | ps5-payload-dev/sdk, GPL-3.0-or-later; pinned rebuild-reference source included |
 
 Upstream release binaries do not provide a complete compiler/SDK build receipt.

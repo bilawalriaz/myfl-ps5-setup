@@ -27,11 +27,13 @@ if commit != relapse['commit']:
     relapse['commit'] = commit
     relapse['url'] = 'https://codeload.github.com/' + relapse['repo'] + '/tar.gz/' + commit
     relapse['sha256'] = digest(relapse['url'])
-for repo in sorted({item['repo'] for item in lock['assets']}):
+updatable = [item for item in lock['assets'] if item['id'] != 'autoloader-transport-host']
+for repo in sorted({item['repo'] for item in updatable}):
     releases = api('repos/' + repo + '/releases?per_page=20')
     # New prereleases are reported by track.py but not automatically selected.
-    release = next((item for item in releases if not item['draft'] and not item['prerelease']), None)
-    pins = [item for item in lock['assets'] if item['repo'] == repo]
+    release = max((item for item in releases if not item['draft'] and not item['prerelease']),
+                  key=lambda item: item['published_at'], default=None)
+    pins = [item for item in updatable if item['repo'] == repo]
     if not release or release['tag_name'] == pins[0]['tag']:
         continue
     # Do not downgrade a deliberately reviewed prerelease to an older stable tag.

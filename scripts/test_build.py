@@ -29,6 +29,13 @@ class BoundaryTests(unittest.TestCase):
                 build.download({'url': 'https://github.com/example/file',
                                 'sha256': hashlib.sha256(b'original').hexdigest()})
 
+    def test_download_size_bound_is_enforced(self):
+        with patch.object(build, 'MAX_DOWNLOAD', 4), \
+                patch('urllib.request.urlopen', return_value=io.BytesIO(b'12345')):
+            with self.assertRaisesRegex(ValueError, 'size limit'):
+                build.download({'url': 'https://github.com/example/file',
+                                'sha256': hashlib.sha256(b'12345').hexdigest()})
+
     def test_archive_traversal_and_symlinks_rejected(self):
         for name, link in [('root/../../escape', False), ('root/link', True)]:
             stream = io.BytesIO()
