@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>PS5 startup</title>
+<style>
+:root{color-scheme:dark;--ink:#f2f4f8;--muted:#a7adb8;--line:#2a2f36;--surface:#111418;--canvas:#060606;--accent:#7ee787;--warn:#ffb86b}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font:18px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:44rem;margin:0 auto;padding:24px 20px 48px}
+h1{font-size:1.5rem;margin:0 0 4px}
+p{color:var(--muted);margin:8px 0}
+.profiles{display:flex;gap:12px;margin:20px 0}
+.profile{flex:1;min-height:76px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;font-weight:650;text-align:left;cursor:pointer}
+.profile[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.profile small{display:block;font-weight:400;color:var(--muted);margin-top:4px;font-size:.85rem}
+fieldset{border:1px solid var(--line);border-radius:12px;margin:16px 0;padding:8px 14px}
+legend{padding:0 6px;color:var(--muted);font-size:.9rem}
+label.row{display:flex;align-items:center;gap:12px;min-height:56px;padding:4px 0;cursor:pointer}
+label.row input{width:26px;height:26px;accent-color:var(--accent);flex:none}
+label.row span{flex:1}
+label.row em{display:block;font-style:normal;font-size:.85rem;color:var(--warn)}
+.start{display:block;text-align:center;min-height:64px;line-height:64px;margin-top:24px;border-radius:12px;background:var(--accent);color:#060606;font-weight:800;font-size:1.1rem;text-decoration:none}
+.cmd{display:block;margin:10px 0;padding:10px 12px;border-radius:8px;background:#0f1216;border:1px solid var(--line);color:#e6e8eb;font:14px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+.note{font-size:.9rem;color:var(--muted)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Jailbreak this PS5</h1>
+  <p>Nothing runs until you press Start. Choose what this boot is for.</p>
+  <div class="profiles" role="group" aria-label="Startup profile">
+    <button type="button" class="profile" data-profile="ps5" aria-pressed="true">Normal PS5<small>Relapse plus the payload set, including kstuff and a HEN.</small></button>
+    <button type="button" class="profile" data-profile="linux" aria-pressed="false">PS5 Linux<small>Relapse only: ELF loader on 9021, no kstuff or HEN.</small></button>
+  </div>
+  <fieldset>
+    <legend>Payloads after Relapse</legend>
+    <div id="rows"></div>
+  </fieldset>
+  <p class="note" id="hint"></p>
+  <a class="start" id="start" href="/managed/">Start</a>
+  <div id="linux-note" hidden>
+    <p class="note">Linux needs the ELF loader alone. When this page finishes, send the loader from your computer while the console is still on:</p>
+    <code class="cmd">socat -t 99999999 - TCP:PS5-IP:9021 &lt; ps5-linux-loader.elf</code>
+    <p class="note">The console enters rest mode by itself. Wait for a solid orange LED, then press power. Do not load kstuff, OnionHEN or etaHEN: the console freezes instead of entering rest mode. Keep the Linux USB SSD in a rear port, with rest-mode USB power set to Always.</p>
+  </div>
+</main>
+<script>
+(function () {
+  // Rendered by scripts/start_page.py from the pinned payload list.
+  var PAYLOADS = __PAYLOADS__;
+  var PROFILES = __PROFILES__;
+  var ORIGIN = __ORIGIN__;
+  var profile = PROFILES.ps5 ? "ps5" : Object.keys(PROFILES)[0];
+  var chosen = {};
+  Object.keys(PROFILES).forEach(function (name) { chosen[name] = PROFILES[name].slice(); });
+
+  var rows = document.getElementById("rows");
+  var hint = document.getElementById("hint");
+  var start = document.getElementById("start");
+  var linuxNote = document.getElementById("linux-note");
+
+  PAYLOADS.forEach(function (item) {
+    var label = document.createElement("label");
+    label.className = "row";
+    var box = document.createElement("input");
+    box.type = "checkbox";
+    box.value = item.file;
+    label.appendChild(box);
+    var span = document.createElement("span");
+    span.textContent = item.label;
+    if (item.warning) {
+      var em = document.createElement("em");
+      em.textContent = item.warning;
+      span.appendChild(em);
+    }
+    label.appendChild(span);
+    rows.appendChild(label);
+  });
+
+  var boxes = Array.prototype.slice.call(rows.querySelectorAll("input"));
+
+  function render() {
+    var selected = chosen[profile] || [];
+    boxes.forEach(function (box) { box.checked = selected.indexOf(box.value) !== -1; });
+    Array.prototype.forEach.call(document.querySelectorAll(".profile"), function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.profile === profile));
+    });
+    var load = PAYLOADS.map(function (item) { return item.file; })
+      .filter(function (name) { return selected.indexOf(name) !== -1; });
+    start.href = ORIGIN + "/managed/?profile=" + encodeURIComponent(profile) + "&load=" + load.join(",");
+    hint.textContent = load.length
+      ? "Relapse runs first, then " + load.length + " payload(s) in the listed order. Leave the page open until it finishes."
+      : "Relapse only: kernel exploit, root and the ELF loader on port 9021. Nothing else is transferred.";
+    linuxNote.hidden = profile !== "linux";
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".profile"), function (button) {
+    button.addEventListener("click", function () {
+      profile = button.dataset.profile;
+      render();
+    });
+  });
+  rows.addEventListener("change", function (event) {
+    var box = event.target;
+    if (!box || box.type !== "checkbox") return;
+    var selected = chosen[profile] || (chosen[profile] = []);
+    var index = selected.indexOf(box.value);
+    if (box.checked && index === -1) selected.push(box.value);
+    if (!box.checked && index !== -1) selected.splice(index, 1);
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

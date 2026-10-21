@@ -16,8 +16,11 @@ retail PS5 on firmware **13.60**, with a separate WebKit Autoloader setup.
    resolves PlayStation and myfl.uk names, and resolves other domains normally.
    The known update.playstation.net branch returns NXDOMAIN.  Restore your
    original DNS when finished.
-3. Use the managed entry to load logs, kstuff, ShadowMountPlus, FTP, Orbit with TorBox and OnionHEN after Relapse. The original Relapse-only
-   route stays available. The installer is a separate one-time setup.
+3. Opening the User’s Guide shows the start page, not the exploit. Pick
+   **Normal PS5** (Relapse plus the ticked payloads) or **PS5 Linux** (Relapse
+   only, for the loader on port 9021), clear any payload you do not want, then
+   press Start. Nothing runs until Start is pressed. `/managed/` without a query
+   keeps the reviewed PS5 set; `/relapse/` stays Relapse-only.
 4. To install the homescreen WebKit Autoloader, send the pinned installer ELF
    after the first jailbreak and follow its upstream reboot instructions. Its
    cached entry, local payload files and default console-only loader are distinct
@@ -30,6 +33,11 @@ archive, separate payload release assets and pinned source archives.
 Checksums for source archives are locally recorded; binary asset digests were
 reported by GitHub and verified after downloading.
 
+- `dist/start/index.html` is the User’s Guide chooser, rendered from the pinned
+  payload list. It is a classic page with no external assets, and it only builds
+  the `/managed/?profile=…&load=…` link. The selection is an allowlist: an
+  unknown or foreign file name is dropped and the canonical transfer order is
+  kept. An empty `load` list is the Linux profile and transfers nothing.
 - `dist/relapse/` preserves original exploit code, MIT notice and loader.
   Curated kstuff, ShadowMountPlus, FTP, klog, Payload Manager and WebKit Autoloader
   installer ELF files are copied into its **payloads/** folder.
@@ -93,7 +101,16 @@ logging is disabled. Private daily HTTP aggregates and DNS response counters are
 retained seven days; raw operational logs are size-capped and rotate. Counts are
 requests, not unique people or successful jailbreaks.
 
-## Upstream sources reviewed 3 October 2026
+The User’s Guide paths serve the `dist/start/` chooser; the exploit tree is only
+served, never started by the guide entry. Micro hosts the same tree for the LAN and
+serves its guide page from `/opt/ps5-host/redirect`, rendered with the LAN origin:
+
+```sh
+python3 scripts/start_page.py --origin http://192.168.1.152 \
+  --output /opt/ps5-host/redirect/index.html
+```
+
+## Upstream sources reviewed 21 October 2026
 
 [MAINTAINER-DOC] Relapse documents 7.00–13.60 and loader port 9021. The WebKit
 Autoloader documents initial PC/User’s Guide setup, cached updates, USB priority,

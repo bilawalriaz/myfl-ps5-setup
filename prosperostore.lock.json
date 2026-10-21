@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "reviewed": "2026-10-16",
+  "reviewed": "2026-10-21",
   "checksum_policy": "The release ZIP SHA-256 is published in GitHub SHA256SUMS and checked against downloaded bytes. The source archive SHA-256 is locally recorded.",
   "asset": {
     "repo": "blackbearreloaded/ProsperoStore",

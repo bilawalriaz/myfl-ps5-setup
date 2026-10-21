@@ -12,6 +12,7 @@ import tempfile
 import urllib.request
 import zipfile
 from managed_entry import assemble, PAYLOADS
+from start_page import render as render_start
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_DOWNLOAD = 384 * 1024 * 1024  # Orbit release source bundle includes dependency sources.
@@ -97,6 +98,9 @@ def build():
                 (output / 'relapse' / 'payloads' / name).write_bytes(data)
         host = next(item for item in manifest['assets'] if item['id'] == 'autoloader-transport-host')
         assemble(output, output / 'downloads' / host['name'])
+        # The User's Guide entry: a chooser, so Relapse only runs after a choice.
+        (output / 'start').mkdir()
+        (output / 'start' / 'index.html').write_text(render_start(''))
         for payload in (output / 'relapse' / 'payloads').glob('*.elf'):
             check_elf(payload.read_bytes())
         manual = output / 'autoloader' / 'ps5_autoloader'

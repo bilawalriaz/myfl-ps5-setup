@@ -25,7 +25,7 @@ copyright notices are retained inside those archives.
 | libtomcrypt, isa-l_crypto | Their pinned upstream source and notices inside archives |
 | Orbit Store | saawant12/orbit-store-ps5, GPL-3.0-or-later; upstream 1.3.5 full source and dependency bundle included |
 | ProsperoEden | blackbearreloaded/ProsperoEden, GPL-3.0; unmodified v1.003.000 release ZIP, source at the pinned upstream tag |
-| ProsperoStore | blackbearreloaded/ProsperoStore, GPL-3.0-or-later; unmodified v1.000.070 release ZIP, source at the pinned upstream commit |
+| ProsperoStore | blackbearreloaded/ProsperoStore, GPL-3.0-or-later; unmodified v1.000.104 release ZIP, source at the pinned upstream commit |
 | PS5 payload SDK | ps5-payload-dev/sdk, GPL-3.0-or-later; pinned rebuild-reference source included |
 
 Upstream release binaries do not provide a complete compiler/SDK build receipt.

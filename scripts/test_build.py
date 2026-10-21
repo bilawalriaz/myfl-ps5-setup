@@ -49,5 +49,26 @@ class BoundaryTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     build.extract(stream.getvalue(), Path(directory), 'root')
 
+class StartPageTests(unittest.TestCase):
+    def test_start_page_offers_a_choice_instead_of_running_the_exploit(self):
+        import managed_entry
+        import start_page
+        page = start_page.render()
+        for name in managed_entry.PAYLOADS:
+            self.assertIn('"' + name + '"', page)
+        self.assertIn('data-profile="ps5"', page)
+        self.assertIn('data-profile="linux"', page)
+        self.assertEqual(managed_entry.PROFILES['linux'], [])
+        self.assertIn('"/managed/?profile="', page)
+        for forbidden in ('location.replace', 'location.assign', 'location.href',
+                          'http-equiv="refresh"', '__ORIGIN__', '__PAYLOADS__'):
+            self.assertNotIn(forbidden, page)
+
+    def test_start_page_prefixes_the_exploit_origin_when_asked(self):
+        import start_page
+        page = start_page.render('http://192.168.1.152')
+        self.assertIn('var ORIGIN = "http://192.168.1.152";', page)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -44,8 +44,11 @@ abuse; they do not guarantee protection from volumetric attacks upstream of OCI.
 
 ## TLS/User’s Guide acceptance
 
-The source-confirmed `/document/<language>/ps5/` paths map to the managed Relapse tree,
-including its relative source and payload URLs. A locally generated RSA certificate
+The source-confirmed `/document/<language>/ps5/` paths serve the Nginx start chooser
+(`/start/index.html`) and nothing else, so opening the guide cannot start Relapse.
+The chooser links to `/managed/?profile=…&load=…`; that tree keeps its relative
+source and payload URLs, and its `?load=` list is validated against the pinned
+payload names. A locally generated RSA certificate
 serves only `manuals.playstation.net`; it is not publicly trusted, and it is not
 an upstream shared private key. Console certificate acceptance remains [UNKNOWN].
 Normal `exploit.myfl.uk` uses a publicly trusted certificate managed by Caddy.
@@ -94,7 +97,12 @@ configuration is unchanged; these private JSON snapshots can be integrated later
 Review the candidate PR, build and hash-check the full new version, test both console
 paths, then stage a new release directory and atomically switch serving content.
 Keep the previous directory. Do not mutate a live file tree while publishing a
-new candidate. No scheduled job deploys candidates automatically.
+new candidate. No scheduled job deploys candidates automatically. `nginx.conf` is a
+bind-mounted file, so recreate the web container after changing it:
+
+```sh
+cd /opt/myfl-ps5/oracle && docker compose up -d --force-recreate web
+```
 
 For service rollback, disable the three myfl systemd services/timer, then stop
 **only** this Compose project, remove only its three
