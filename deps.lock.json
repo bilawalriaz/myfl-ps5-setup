@@ -14,18 +14,18 @@
   "assets": [
     {
       "repo": "itsPLK/ps5-webkit-autoloader",
-      "tag": "v0.6.1",
-      "name": "webkit-autoloader-installer_v0.6.1.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.1/webkit-autoloader-installer_v0.6.1.elf",
-      "sha256": "f662c75a502e4f1bc41b055dcb490625f8222c499ce437dc80f439a3a279e93f",
+      "tag": "v0.6.2",
+      "name": "webkit-autoloader-installer_v0.6.2.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.2/webkit-autoloader-installer_v0.6.2.elf",
+      "sha256": "27fd335764270716972faea399a5cc7810b9e49a21abf4966d9759580756cb19",
       "id": "autoloader-installer"
     },
     {
       "repo": "itsPLK/ps5-webkit-autoloader",
-      "tag": "v0.6.1",
-      "name": "webkit-autoloader-host_v0.6.1.py",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.1/webkit-autoloader-host_v0.6.1.py",
-      "sha256": "722798faaf82d733e00a7ad2658d21323ec22b70755c74018ed5e6ca164fd2c0",
+      "tag": "v0.6.2",
+      "name": "webkit-autoloader-host_v0.6.2.py",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.2/webkit-autoloader-host_v0.6.2.py",
+      "sha256": "d343b0c8fdb4f3485f7704b05468f53d26559ae6bce8d6877ad656288681087c",
       "id": "autoloader-host"
     },
     {
@@ -38,10 +38,10 @@
     },
     {
       "repo": "drakmor/ShadowMountPlus",
-      "tag": "1.7beta7",
+      "tag": "1.7beta11",
       "name": "shadowmountplus.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta7/shadowmountplus.elf",
-      "sha256": "a8f9d7f76e8749912508ade0cd5c78076b5bbf1271813c78c80c3d3d9d4777ee",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta11/shadowmountplus.elf",
+      "sha256": "08c843018750bef013fe3a4de5f80c5c9738c6c2dafa2406e6b6e68d7585f3da",
       "id": "shadowmount"
     },
     {
@@ -138,10 +138,10 @@
     },
     {
       "repo": "drakmor/ShadowMountPlus",
-      "commit": "0794096dbfd5855d5b757e4708703671400bc9cf",
-      "url": "https://codeload.github.com/drakmor/ShadowMountPlus/tar.gz/0794096dbfd5855d5b757e4708703671400bc9cf",
-      "name": "drakmor-ShadowMountPlus-0794096dbfd5.tar.gz",
-      "sha256": "c72457d2d33356410b76c05e2c0700ba67d07da23aca8ea0876e5a106ee1187b"
+      "commit": "30c5a2b791ada7a78ccbda92f4bc3b1fa1cf27dd",
+      "url": "https://codeload.github.com/drakmor/ShadowMountPlus/tar.gz/30c5a2b791ada7a78ccbda92f4bc3b1fa1cf27dd",
+      "name": "drakmor-ShadowMountPlus-30c5a2b791ad.tar.gz",
+      "sha256": "3ba67ce43eabebb10581ae0c7dbb381ec9aba28a89ad529e04c74e585eb8a728"
     },
     {
       "repo": "itsPLK/ps5-payload-manager",
@@ -208,17 +208,31 @@
     },
     {
       "repo": "itsPLK/ps5-webkit-autoloader",
-      "commit": "4351659f2f90dda5393eb8c52500ef2330aeb72a",
-      "url": "https://codeload.github.com/itsPLK/ps5-webkit-autoloader/tar.gz/4351659f2f90dda5393eb8c52500ef2330aeb72a",
-      "name": "itsPLK-ps5-webkit-autoloader-4351659f2f90.tar.gz",
-      "sha256": "e55b95fca65b62a82654ce1b93ae901aa6031e02eb96a8b2fb28c8e9e9efe1bd"
+      "commit": "c560e789aeaf1fca7b4baa30f2eee9054c8ab882",
+      "url": "https://codeload.github.com/itsPLK/ps5-webkit-autoloader/tar.gz/c560e789aeaf1fca7b4baa30f2eee9054c8ab882",
+      "name": "itsPLK-ps5-webkit-autoloader-c560e789aeaf.tar.gz",
+      "sha256": "f6f28cd0adacb00081fdfe0ee3f0753807ac551f79f561a0a3a92402099eb070"
+    },
+    {
+      "repo": "itsPLK/ps5-unified-autoloader",
+      "commit": "e7093cd5aec685be7710e0baa99db7938e9d609b",
+      "url": "https://codeload.github.com/itsPLK/ps5-unified-autoloader/tar.gz/e7093cd5aec685be7710e0baa99db7938e9d609b",
+      "name": "itsPLK-ps5-unified-autoloader-e7093cd5aec6.tar.gz",
+      "sha256": "b7be524037d427e7db74c0e487256f80216107415f980fa36404f5d30949d18e"
+    },
+    {
+      "repo": "itsPLK/ps5-elfldr",
+      "commit": "b57d0e994eb78383ba10935fa514ab0430a6a333",
+      "url": "https://codeload.github.com/itsPLK/ps5-elfldr/tar.gz/b57d0e994eb78383ba10935fa514ab0430a6a333",
+      "name": "itsPLK-ps5-elfldr-b57d0e994eb7.tar.gz",
+      "sha256": "dd9920659bf344cc6eeaa6a332c8779f828d67766eb791f9a4a8ef9eaf5d30f9"
     },
     {
       "repo": "itsPLK/ps5-webkit-remote-loader",
-      "commit": "09eca89a3115a266297aaa73bd9f5fcb27300a01",
-      "url": "https://codeload.github.com/itsPLK/ps5-webkit-remote-loader/tar.gz/09eca89a3115a266297aaa73bd9f5fcb27300a01",
-      "name": "itsPLK-ps5-webkit-remote-loader-09eca89a3115.tar.gz",
-      "sha256": "4d1015f62ba52cabf7ffdd5eb8970f23975a61152ebfd5de0e7987b5145bdffe"
+      "commit": "d6666050a910d557f586f401051e8f33e9cc05ee",
+      "url": "https://codeload.github.com/itsPLK/ps5-webkit-remote-loader/tar.gz/d6666050a910d557f586f401051e8f33e9cc05ee",
+      "name": "itsPLK-ps5-webkit-remote-loader-d6666050a910.tar.gz",
+      "sha256": "1af9b6a58d8994b2a491dfcad403e8fe5b8eaaf1b83f0753ea675f17ff82670c"
     },
     {
       "repo": "ps5-payload-dev/ftpsrv",
