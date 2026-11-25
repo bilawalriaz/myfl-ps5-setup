@@ -15,8 +15,16 @@ from managed_entry import assemble, PAYLOADS
 from start_page import render as render_start
 
 ROOT = Path(__file__).resolve().parents[1]
-MAX_DOWNLOAD = 384 * 1024 * 1024  # Orbit release source bundle includes dependency sources.
+MAX_DOWNLOAD = 512 * 1024 * 1024  # Orbit 1.9.7 source bundle is 439 MB.
 MAX_ARCHIVE_EXPANSION = 128 * 1024 * 1024
+
+# Runtime payload folders keep these stable names even when the pinned release
+# asset uses a different file name.
+SERVED_NAMES = {'payload-manager': 'pldmgr.elf', 'kstuff': 'kstuff.elf'}
+
+
+def served_name(item):
+    return SERVED_NAMES.get(item.get('id'), item['name'])
 
 
 def download(item):
@@ -94,8 +102,11 @@ def build():
                 (output / 'downloads' / item['url'].rsplit('/', 1)[-1]).write_bytes(data)
             if item['name'].endswith('.elf'):
                 # Curated, independently pinned extras share the upstream loader folder.
-                name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
+                name = served_name(item)
                 (output / 'relapse' / 'payloads' / name).write_bytes(data)
+                if name != item['name']:
+                    # Keep the stable name downloadable as well as the versioned pin.
+                    (output / 'downloads' / name).write_bytes(data)
         host = next(item for item in manifest['assets'] if item['id'] == 'autoloader-transport-host')
         assemble(output, output / 'downloads' / host['name'])
         # The User's Guide entry: a chooser, so Relapse only runs after a choice.
@@ -107,7 +118,7 @@ def build():
         manual.mkdir(parents=True)
         for item in assets:
             if item.get('id') in ('kstuff', 'shadowmount', 'klog', 'ftp', 'payload-manager', 'orbit-torbox', 'onionhen'):
-                shutil.copyfile(output / 'downloads' / item['name'], manual / ('pldmgr.elf' if item['id'] == 'payload-manager' else item['name']))
+                shutil.copyfile(output / 'downloads' / item['name'], manual / served_name(item))
         (manual / 'autoload.txt').write_text('\n'.join(PAYLOADS) + '\n')
         (output / 'autoloader' / 'README.txt').write_text(
             'Launch after full boot.\n'
@@ -122,11 +133,11 @@ def build():
                     archive.writestr(entry, file.read_bytes())
         (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
         page = (ROOT / 'landing.html').read_text()
-        titles = {'onionhen': 'OnionHEN', 'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-lite', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server', 'orbit-upstream': 'Orbit Store (upstream)', 'orbit-torbox': 'Orbit Store with TorBox', 'autoloader-preview-installer': 'WebKit Autoloader installer (prerelease)'}
+        titles = {'onionhen': 'OnionHEN', 'autoloader-installer': 'WebKit Autoloader installer', 'payload-manager': 'Payload Manager', 'kstuff': 'kstuff-dr (13.60 fpkg)', 'shadowmount': 'ShadowMountPlus', 'klog': 'Kernel log server', 'ftp': 'FTP server', 'orbit-upstream': 'Orbit Store (upstream)', 'orbit-torbox': 'Orbit Store with TorBox', 'autoloader-preview-installer': 'WebKit Autoloader installer (prerelease)'}
         catalogue = {'name': 'myfl.uk PS5 essentials', 'payloads': []}
         for item in assets:
             if item.get('id') in titles:
-                name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
+                name = served_name(item)
                 catalogue['payloads'].append({'name': titles[item['id']], 'filename': name,
                     'url': 'https://exploit.myfl.uk/relapse/payloads/' + name,
                     'version': item['tag'], 'checksum': item['sha256'],
@@ -135,8 +146,8 @@ def build():
         links = []
         for item in assets:
             if item.get('id') in titles:
-                name = 'pldmgr.elf' if item['id'] == 'payload-manager' else item['name']
-                instructions = ('/sources/' + manifest['orbit']['sources'][0]['name'] if item['id'] == 'orbit-torbox' else 'https://github.com/' + item['repo'] + '/releases/tag/' + html.escape(item['tag'], quote=True))
+                name = served_name(item)
+                instructions = item.get('instructions') or ('/sources/' + manifest['orbit']['sources'][0]['name'] if item['id'] == 'orbit-torbox' else 'https://github.com/' + item['repo'] + '/releases/tag/' + html.escape(item['tag'], quote=True))
                 links.append('<li><a href="/relapse/payloads/' + html.escape(name, quote=True) + '">' + html.escape(titles[item['id']] + ' ' + item['tag']) + '</a> - <a href="' + instructions + '">source / instructions</a></li>')
         begin, end = page.index('<ul>'), page.index('</ul>') + len('</ul>')
         prosperostore = manifest['prosperostore']['asset']

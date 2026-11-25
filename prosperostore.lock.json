@@ -1,22 +1,29 @@
 {
   "schema": 1,
-  "reviewed": "2026-10-21",
+  "reviewed": "2026-11-26",
   "checksum_policy": "The release ZIP SHA-256 is published in GitHub SHA256SUMS and checked against downloaded bytes. The source archive SHA-256 is locally recorded.",
   "asset": {
-    "repo": "blackbearreloaded/ProsperoStore",
-    "tag": "v1.000.070",
+    "repo": "darkxex/ProsperoStore",
+    "tag": "v1.000.120",
     "name": "PPSA99000.zip",
-    "url": "https://github.com/blackbearreloaded/ProsperoStore/releases/download/v1.000.070/PPSA99000.zip",
-    "sha256": "0bb41b6f0e084b56a194827161770db153d95698afe5e5fc54a566a2e0cb14b3",
+    "url": "https://github.com/darkxex/ProsperoStore/releases/download/v1.000.120/PPSA99000.zip",
+    "sha256": "c12198317bead3ca9e91cd6a488093e1248499f47b8cdf535da654a565a8213f",
     "id": "prosperostore-app"
   },
   "sources": [
     {
-      "repo": "blackbearreloaded/ProsperoStore",
-      "commit": "8309e13c5eee89434cb2ae865001bca07a9755ce",
-      "name": "ProsperoStore-source-v1.000.070.tar.gz",
-      "url": "https://codeload.github.com/blackbearreloaded/ProsperoStore/tar.gz/8309e13c5eee89434cb2ae865001bca07a9755ce",
-      "sha256": "3dcb6944400d57f154fc125be4fcc18e6441d7b0012f43ed0eee44aecc1215c5"
+      "repo": "darkxex/ProsperoStore",
+      "commit": "22d5a44a053b4dad4f3a5867fe39d262a80a1b8c",
+      "name": "ProsperoStore-source-v1.000.116.tar.gz",
+      "url": "https://codeload.github.com/darkxex/ProsperoStore/tar.gz/22d5a44a053b4dad4f3a5867fe39d262a80a1b8c",
+      "sha256": "1eefeaeffb378e37ef881674edee1d0fec4e217c36ed3355bb69eb6343dc6bdc"
+    },
+    {
+      "repo": "darkxex/ProsperoStore",
+      "commit": "0e1f031889643130af0a617b58b684e9cbfa67af",
+      "name": "ProsperoStore-source-v1.000.120.tar.gz",
+      "url": "https://codeload.github.com/darkxex/ProsperoStore/tar.gz/0e1f031889643130af0a617b58b684e9cbfa67af",
+      "sha256": "824d8bafe7bd5c4c324b858cfa6d2e707246bc7e98ea6bf3f200627ebc163623"
     }
   ]
 }

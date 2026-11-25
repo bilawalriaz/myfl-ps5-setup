@@ -9,7 +9,8 @@ lock = json.loads((root / 'deps.lock.json').read_text())
 orbit = json.loads((root / 'orbit.lock.json').read_text())
 store = json.loads((root / 'prosperostore.lock.json').read_text())
 # The managed entry's transport is a deliberate source pin, not an installer update.
-assets = [item for item in lock['assets'] if item['id'] != 'autoloader-transport-host']
+assets = [item for item in lock['assets']
+          if item['id'] != 'autoloader-transport-host' and item.get('update') != 'manual']
 assets += orbit['assets'] + [orbit['tv_app'], store['asset']]
 
 def api(endpoint):
@@ -21,7 +22,16 @@ commit = api('repos/' + source['repo'] + '/commits/main')['sha']
 rows.append({'repo': source['repo'], 'pinned': source['commit'], 'observed': commit,
              'changed': commit != source['commit']})
 for repo in sorted({item['repo'] for item in assets}):
-    releases = api('repos/' + repo + '/releases?per_page=10')
+    try:
+        releases = api('repos/' + repo + '/releases?per_page=10')
+    except subprocess.CalledProcessError as error:
+        if 'Not Found' not in (error.output or ''):
+            raise
+        rows.append({'repo': repo, 'pinned': next(item['tag'] for item in assets
+                                                   if item['repo'] == repo),
+                     'observed': None, 'changed': True, 'asset_drift': False,
+                     'prerelease': None, 'error': 'repository or releases not found'})
+        continue
     release = max((item for item in releases if not item['draft']),
                   key=lambda item: item['published_at'], default=None)
     pins = [item for item in assets if item['repo'] == repo]

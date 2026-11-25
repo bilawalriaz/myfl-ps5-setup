@@ -54,7 +54,8 @@ def pin(repo, revision):
             raise ValueError('Unreviewed submodule origin: ' + repo + ' ' + subpath + ' ' + remote)
         pin(match[1], links[subpath])
 
-for repo, revision in sorted({(item['repo'], item['tag']) for item in lock['assets']}):
+for repo, revision in sorted({(item['repo'], item['tag']) for item in lock['assets']
+                              if item.get('update') != 'manual'}):
     pin(repo, revision)
 pin('ps5-payload-dev/sdk', 'f7fd02e6e195902a449b5e664917be8c01888b34')
 lock['sources'] = records

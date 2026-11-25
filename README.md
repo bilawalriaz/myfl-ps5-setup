@@ -70,6 +70,29 @@ previous candidate aside explicitly and keep it for rollback. Generated artifact
 private config, raw logs and secrets are ignored. No Sony runtime, game data,
 saves or console dumps belong in this project.
 
+### Rebuild on micro when Actions minutes are unavailable
+
+`assemble.py` rebuilds the served tree in place from a working stage, reusing the
+download cache instead of fetching every unchanged asset again. A pin with
+`"update": "manual"` (the operator-supplied kstuff test build) is skipped by
+`update.py`, `track.py` and `pin_sources.py`; its bytes must already exist at
+`inputs/<sha256>` or at one of the served paths checked by `cached()`.
+
+```sh
+stage=/home/billz/myfl-stage-$(date +%Y%m%d)
+mkdir -p "$stage" && cp -a /opt/ps5-host/site "$stage/new"
+cd "$stage"
+python3 <repo>/scripts/update.py      # refresh stable pins only
+python3 <repo>/scripts/assemble.py    # verify live receipt, refresh payloads
+python3 <repo>/scripts/finalize.py    # re-hash catalogue, ELF bounds, ZIP
+```
+
+Promote the whole directory, never individual files: move the live tree into
+`payload-update-YYYYMMDD/previous`, move `new` into place, then mirror the same
+bytes to Oracle (`rsync -a` into `dist-new`, swap, and recreate only the `web`
+container so the bind mount points at the new directory). Keep the previous tree
+until the console loads the new payload set.
+
 ## Updates
 
 The daily GitHub workflow reports upstream changes. A new upstream Relapse commit

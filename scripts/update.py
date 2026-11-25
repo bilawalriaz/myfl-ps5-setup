@@ -27,9 +27,16 @@ if commit != relapse['commit']:
     relapse['commit'] = commit
     relapse['url'] = 'https://codeload.github.com/' + relapse['repo'] + '/tar.gz/' + commit
     relapse['sha256'] = digest(relapse['url'])
-updatable = [item for item in lock['assets'] if item['id'] != 'autoloader-transport-host']
+updatable = [item for item in lock['assets']
+             if item['id'] != 'autoloader-transport-host' and item.get('update') != 'manual']
 for repo in sorted({item['repo'] for item in updatable}):
-    releases = api('repos/' + repo + '/releases?per_page=20')
+    try:
+        releases = api('repos/' + repo + '/releases?per_page=20')
+    except subprocess.CalledProcessError as error:
+        if b'Not Found' not in (error.output or b''):
+            raise
+        print('Skipping ' + repo + ': repository or releases not found', flush=True)
+        continue
     # New prereleases are reported by track.py but not automatically selected.
     release = max((item for item in releases if not item['draft'] and not item['prerelease']),
                   key=lambda item: item['published_at'], default=None)
